@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/news_nav_graph"
+    app:startDestination="@id/headlineFragment">
+
+    <fragment
+        android:id="@+id/headlineFragment"
+        android:name="com.example.newsapp.ui.fragments.HeadlineFragment"
+        android:label="HeadlineFragment"
+        tools:layout="@layout/fragment_headline" >
+        <action
+            android:id="@+id/action_headlineFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+        <action
+            android:id="@+id/action_headlineFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+        <argument
+            android:name="HeadlinesFragmentArgs"
+            app:argType="com.example.newsapp.models.Article" />
+        <action
+            android:id="@+id/action_headlineFragment_to_favoritesFragment2"
+            app:destination="@id/favoritesFragment" />
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/searchFragment"
+        tools:layout="@layout/fragment_search"
+        android:name="com.example.newsapp.ui.fragments.SearchFragment"
+        android:label="SearchFragment" >
+
+        <action
+            android:id="@+id/action_searchFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/articleFragment"
+        tools:layout="@layout/fragment_article"
+        android:name="com.example.newsapp.ui.fragments.ArticleFragment"
+        android:label="ArticleFragment" >
+
+        <argument
+            android:name="article"
+            app:argType="com.example.newsapp.models.Article"/>
+        <argument
+            android:name="ArticleFragmentArgs"
+            app:argType="com.example.newsapp.models.Article" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.example.newsapp.ui.fragments.FavoritesFragment"
+        android:label="fragment_favorites"
+        tools:layout="@layout/fragment_favourites" >
+        <action
+            android:id="@+id/action_favoritesFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+    </fragment>
+</navigation>
