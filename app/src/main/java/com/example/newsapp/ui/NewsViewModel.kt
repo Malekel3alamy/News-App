@@ -3,6 +3,7 @@ package com.example.newsapp.ui
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,10 +11,14 @@ import com.example.newsapp.models.Article
 import com.example.newsapp.models.NewsResponse
 import com.example.newsapp.repo.NewsRepo
 import com.example.newsapp.utils.Resources
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import javax.inject.Inject
 
-class NewsViewModel(val newsRepo :NewsRepo ) : ViewModel() {
+
+@HiltViewModel
+class NewsViewModel @Inject constructor(private val newsRepo :NewsRepo ) : ViewModel() {
 
     val headlines = MutableLiveData<Resources<NewsResponse>>()
     var headlinesPage = 1
@@ -25,13 +30,16 @@ class NewsViewModel(val newsRepo :NewsRepo ) : ViewModel() {
 
     var newSearchQuery : String? = null
     var oldSearchQuery:String? = null
+
+    var roomArticles :MutableLiveData<List<Article>?>? = null
 init {
 
     getHeadlines()
+    getFavouriteNews()
 }
 
 
-  fun getHeadlines() = viewModelScope.launch{
+ private fun getHeadlines() = viewModelScope.launch{
 
     headlines.postValue(Resources.Loading())
 
@@ -94,7 +102,13 @@ init {
         newsRepo.upsert(article)
     }
 
-    fun getFavouriteNews() = newsRepo.getAllArticles()
+   private fun getFavouriteNews() = {
+       val roomResult = newsRepo.getAllArticles().value
+       if (roomResult!= null){
+           roomArticles?.postValue(roomResult)
+       }
+
+   }
 
     fun deleteArticle (article: Article) = viewModelScope.launch {
 
@@ -127,7 +141,7 @@ init {
 
         searchNews.postValue(Resources.Loading())
 
-        val searchResponse = newsRepo.searchforNews(queryString,searchNewsPage)
+        val searchResponse = newsRepo.searchforNews(queryString)
         searchNews.postValue(handleSearchNewsResponse(searchResponse))
 
     }

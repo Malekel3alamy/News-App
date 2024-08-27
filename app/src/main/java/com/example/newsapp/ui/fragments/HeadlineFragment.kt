@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -25,12 +26,13 @@ import com.example.newsapp.ui.NewsViewModel
 import com.example.newsapp.utils.Constants
 import com.example.newsapp.databinding.FragmentHeadlineBinding
 import com.example.newsapp.utils.Resources
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class HeadlineFragment : Fragment(R.layout.fragment_headline) {
 
-    lateinit var newsViewModel: NewsViewModel
+     val newsViewModel by viewModels<NewsViewModel>()
     private lateinit var newsAdapter : NewsAdapter
     private lateinit var binding : FragmentHeadlineBinding
 
@@ -38,8 +40,6 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentHeadlineBinding.bind(view)
-        newsViewModel = (activity as NewsActivity).newsViewModel
-
 
         setUpHeadlinesRecycler()
 
@@ -76,7 +76,7 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
         }
      newsAdapter.setOnClickListener {
     val bundle = Bundle().apply {
-       // putParcelable("article",it)
+        putParcelable("article",it)
       }
          findNavController().navigate(R.id.action_headlineFragment_to_articleFragment,bundle)
     }
@@ -130,7 +130,7 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
             val shouldPaginate = isNoErrors && isNotLoadingAndNotLastPage
                     && isNotAtBeginning && isTotalMoreThanvisible && isScrolling
             if (shouldPaginate) {
-                newsViewModel.getHeadlines()
+
                 isScrolling = false
 
             }
@@ -154,7 +154,7 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
 
 
            adapter =  newsAdapter
-                layoutManager = LinearLayoutManager(activity)
+                layoutManager = LinearLayoutManager(requireContext())
                 addOnScrollListener(this@HeadlineFragment.scrollListener)
            }
 

@@ -3,8 +3,10 @@ package com.example.newsapp.repo
 import com.example.newsapp.api.RetrofitInstance
 import com.example.newsapp.db.ArticleDatabase
 import com.example.newsapp.models.Article
+import javax.inject.Inject
 
-class NewsRepo (val db: ArticleDatabase
+
+class NewsRepo @Inject constructor (val db: ArticleDatabase
 ) {
 
 
@@ -12,9 +14,9 @@ class NewsRepo (val db: ArticleDatabase
     = RetrofitInstance.api.getHeadlines()
 
 
-    suspend fun searchforNews(searchQuery : String,pageNumber: Int =1) =
+    suspend fun searchforNews(searchQuery : String) =
 
-        RetrofitInstance.api.searchforNews(searchQuery, pageNumber)
+        RetrofitInstance.api.searchforNews(searchQuery)
 
     // room
     suspend fun  upsert (article: Article) = db.getArticleDao().upsert(article)

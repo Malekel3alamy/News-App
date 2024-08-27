@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,14 +25,15 @@ import com.example.newsapp.ui.NewsActivity
 import com.example.newsapp.ui.NewsViewModel
 import com.example.newsapp.utils.Constants
 import com.example.newsapp.utils.Resources
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-
+@AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search) {
 
-    lateinit var newsViewModel: NewsViewModel
+    val newsViewModel by viewModels<NewsViewModel>()
     lateinit var newsAdapter : NewsAdapter
     lateinit var retryButton : Button
     lateinit var errorText : TextView
@@ -44,7 +46,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         super.onViewCreated(view, savedInstanceState)
           binding = FragmentSearchBinding.bind(view)
 
-        newsViewModel = (activity as NewsActivity).newsViewModel
+
 
         itemSearchError = view.findViewById(R.id.itemSearchError)
         val inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
