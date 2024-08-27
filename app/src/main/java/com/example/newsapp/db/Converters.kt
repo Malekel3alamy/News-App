@@ -1,21 +1,33 @@
 package com.example.newsapp.db
 
 import androidx.room.TypeConverter
-import com.example.newsapp.models.Source
 
 
 class Converters {
 
     @TypeConverter
-    fun fromSource(source: Source) : String{
-        return source.name
+    fun fromString(source: String) : List<String>{
+        return listOf(source)
     }
 
     @TypeConverter
-    fun toSource(name:String) : Source{
+    fun toString(stringList:List<String>) : String{
 
-        return Source(name,name)
+        return stringList[0]
     }
+
+    @TypeConverter
+    fun fromAnyString(source: String) : Any{
+        return Any()
+    }
+
+    @TypeConverter
+    fun toAnyString(any:Any) : String{
+
+        return ""
+    }
+
+
 
 
 }

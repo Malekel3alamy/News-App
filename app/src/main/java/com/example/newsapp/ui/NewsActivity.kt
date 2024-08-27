@@ -36,15 +36,12 @@ class NewsActivity : AppCompatActivity() {
      val headlinesFragment = HeadlineFragment()
     val searchFragment = SearchFragment()
     val favouritesFragment = FavoritesFragment()
-    val savedFragment = SavedFragment()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNewsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val nav = binding.bottomNavigationView
-
 
         val newsRepo = NewsRepo(ArticleDatabase(this))
         val viewModelProviderFactory = NewsViewModelProviderFactory(application, newsRepo)

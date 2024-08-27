@@ -9,16 +9,14 @@ import retrofit2.http.Query
 
 interface NewsApi {
 
-    @GET("v2/top-headlines")
+    @GET("latest")
     suspend fun  getHeadlines(
-        @Query("country")
-        countrycode : String = " us",
-
+        @Query("apikey")
+        apiKey:String = API_KEY,
         @Query("page")
         pageNumber : Int = 1,
-
-        @Query("apiKey")
-        apiKey:String = API_KEY
+        @Query("image")
+        image : Int =1
 
     ) :Response<NewsResponse>
 

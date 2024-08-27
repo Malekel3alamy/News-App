@@ -5,6 +5,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-parcelize")
+    id("com.google.dagger.hilt.android")
 
 }
 
@@ -81,6 +82,12 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.13.0")
     ksp ("com.github.bumptech.glide:compiler:4.13.0")
 
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+
+    //  Dagger Hilt
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    ksp("com.google.dagger:hilt-android-compiler:2.51.1")
+    ksp("com.google.dagger:hilt-compiler:2.51.1")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

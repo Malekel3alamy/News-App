@@ -4,11 +4,12 @@ import com.example.newsapp.api.RetrofitInstance
 import com.example.newsapp.db.ArticleDatabase
 import com.example.newsapp.models.Article
 
-class NewsRepo (val db:ArticleDatabase) {
+class NewsRepo (val db: ArticleDatabase
+) {
 
 
-    suspend fun getHeadlines(countrycode : String,pageNumber : Int)
-    = RetrofitInstance.api.getHeadlines(countrycode, pageNumber)
+    suspend fun getHeadlines()
+    = RetrofitInstance.api.getHeadlines()
 
 
     suspend fun searchforNews(searchQuery : String,pageNumber: Int =1) =
@@ -21,7 +22,7 @@ class NewsRepo (val db:ArticleDatabase) {
 //room
     fun getAllArticles() = db.getArticleDao().getAllArticles()
 
-    suspend fun deleteArticle(article: Article) = db.getArticleDao().deleteArticle(article)
+   suspend fun deleteArticle(article: Article) = db.getArticleDao().deleteArticle(article)
 
     
 }

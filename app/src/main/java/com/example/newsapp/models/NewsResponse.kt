@@ -1,7 +1,8 @@
 package com.example.newsapp.models
 
 data class NewsResponse(
-    val articles: MutableList<Article>,
+    val nextPage: String,
+    val results: MutableList<Article>,
     val status: String,
     val totalResults: Int
 )

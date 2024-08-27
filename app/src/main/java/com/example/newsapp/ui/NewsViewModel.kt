@@ -25,14 +25,17 @@ class NewsViewModel(val newsRepo :NewsRepo ) : ViewModel() {
 
     var newSearchQuery : String? = null
     var oldSearchQuery:String? = null
+init {
+
+    getHeadlines()
+}
 
 
-
-  fun getHeadlines(countryCode: String) = viewModelScope.launch{
+  fun getHeadlines() = viewModelScope.launch{
 
     headlines.postValue(Resources.Loading())
 
-     val response = newsRepo.getHeadlines(countryCode,headlinesPage)
+     val response = newsRepo.getHeadlines()
 
     headlines.postValue(handleHeadlinesResponse(response))
 }
@@ -50,8 +53,8 @@ class NewsViewModel(val newsRepo :NewsRepo ) : ViewModel() {
                 if(headlinesResponse == null){
                     headlinesResponse = resultResponse
                 }else{
-                    val oldArticles = headlinesResponse?.articles
-                    val newArticles = resultResponse.articles
+                    val oldArticles = headlinesResponse?.results
+                    val newArticles = resultResponse.results
                     oldArticles?.addAll(newArticles)
 
                 }
@@ -64,7 +67,7 @@ class NewsViewModel(val newsRepo :NewsRepo ) : ViewModel() {
 
     }
 
-    private fun handleSearchNewsResponse(response: Response<NewsResponse>) : Resources<NewsResponse>{
+   private fun handleSearchNewsResponse(response: Response<NewsResponse>) : Resources<NewsResponse>{
         if(response.isSuccessful){
             response.body()?.let { resultResponse ->
                 if(searchNewsResponse == null || newSearchQuery != oldSearchQuery){
@@ -73,8 +76,8 @@ class NewsViewModel(val newsRepo :NewsRepo ) : ViewModel() {
 
                 }else{
                     searchNewsPage++
-                    val oldArticles = searchNewsResponse?.articles
-                    val newArticles = resultResponse.articles
+                    val oldArticles = searchNewsResponse?.results
+                    val newArticles = resultResponse.results
 
                     oldArticles?.addAll(newArticles)
                 }

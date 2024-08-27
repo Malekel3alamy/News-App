@@ -40,7 +40,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favourites) {
         newsAdapter.setOnClickListener {
             val bundle =Bundle().apply {
 
-                putParcelable("article",it)
+              //  putParcelable("article",it)
             }
             if(findNavController().currentDestination?.id == R.id.favoritesFragment){
                 findNavController().navigate(R.id.action_favoritesFragment_to_articleFragment,bundle)

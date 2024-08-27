@@ -26,14 +26,14 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         binding = FragmentArticleBinding.bind(view)
         newsViewModel = (activity as NewsActivity).newsViewModel
         if (arguments!= null){
-             article = arguments?.getParcelable("article")
+           //  article = arguments?.getParcelable("article")
             if (article!= null){
 
 
                 binding.webView.apply {
                     settings.javaScriptEnabled = true
                     webViewClient = WebViewClient()
-                    article?.url.let{
+                    article?.link.let{
                         if (it != null) {
                             loadUrl(it)
                         }

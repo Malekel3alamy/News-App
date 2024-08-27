@@ -55,7 +55,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
 
         setUpSearchRecycler()
-        newsAdapter.setOnItemClickListener {article ->
+      /*  newsAdapter.setOnItemClickListener {article ->
             Log.d("Articel","$article")
             val bundle = Bundle().apply{
                 article.id = 2
@@ -74,7 +74,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             }else{
                 Log.d("ItemClick","Error")
             }
-        }
+        }*/
 
        var job: Job? = null
         binding.searchEdit.addTextChangedListener(){ editable ->
@@ -100,7 +100,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     hideProgressBar()
                     hideErrorMessage()
                     it.data?.let {
-                        newsAdapter.differ.submitList(it.articles.toList())
+                        newsAdapter.differ.submitList(it.results.toList())
                         val totalPages = it.totalResults / Constants.QUERY_PAGE_SIZE + 2
                         isLastPage = newsViewModel.searchNewsPage == totalPages
                         if (isLastPage) {

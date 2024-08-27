@@ -23,8 +23,14 @@ abstract class ArticleDatabase : RoomDatabase() {
 
         @Volatile
         private var instance : ArticleDatabase? = null
-
         private val  Lock = Any()
+      /* fun getInstance(context:Context) = instance ?: Synchronized(Lock){
+
+            instance ?: createDatabase(context).also{
+                instance = it
+            }
+        }*/
+
 
         operator fun invoke (context: Context) :ArticleDatabase{
 
@@ -32,12 +38,7 @@ abstract class ArticleDatabase : RoomDatabase() {
         }
 
 
-       /* = instance ?: Synchronized( Lock){
 
-            instance ?: createDatabase(context).also{
-                instance = it
-            }
-        }*/
 
      private   fun createDatabase(context: Context)  =
 

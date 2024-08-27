@@ -28,7 +28,7 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     private val differCallback = object : DiffUtil.ItemCallback<Article>() {
         override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
-            return oldItem.url == newItem.url
+            return oldItem.article_id == newItem.article_id
         }
 
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
@@ -55,11 +55,11 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
         val article : Article = differ.currentList[position]
 
         holder.itemView.apply {
-            Glide.with(this).load(article.url).into(holder.image_news)
+            Glide.with(this).load(article.image_url).into(holder.image_news)
 
-            holder.article_source_tv.text = article.source?.name
+            holder.article_source_tv.text = article.source_name
             holder.article_title_tv.text = article.title
-            holder.article_date_time_tv.text = article.publishedAt
+            holder.article_date_time_tv.text = article.pubDate
             holder.article_desc_tv.text = article.description
 
             setOnClickListener{
@@ -76,13 +76,6 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     }
     private var onItemClickListener : ((Article) -> Unit)? = null
-
-
-    fun setOnItemClickListener(listener : (Article) -> Unit){
-
-        onItemClickListener = listener
-    }
-
 
      fun setOnClickListener(listener: (Article) -> Unit){
 
