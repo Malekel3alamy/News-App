@@ -62,51 +62,18 @@
 
 </LinearLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headerHomeScreen"
->
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-            <TextView
-                android:id="@+id/newsForYouTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="25dp"
-                android:fontFamily="@font/alata"
-                android:text="News for you"
-                android:textColor="@color/black"
-                android:textSize="19sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-            <TextView
-                android:id="@+id/top5NewsTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Top 5 News of the day"
-                android:layout_marginStart="15dp"
-                android:textSize="15sp"
-                android:fontFamily="@font/alata"
-                android:layout_marginTop="3dp"
-                android:textColor="@color/gray"
-                app:layout_constraintTop_toBottomOf="@id/newsForYouTV"
-                app:layout_constraintStart_toStartOf="parent"
-                />
+
+
+
 
             <FrameLayout
                 android:id="@+id/f1Fragment"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/top5NewsTV">
+                app:layout_constraintTop_toBottomOf="@id/headerHomeScreen">
                 <androidx.fragment.app.FragmentContainerView
                     android:id="@+id/news_nav_host_fragment"
                     android:name="androidx.navigation.fragment.NavHostFragment"
@@ -116,8 +83,8 @@
                     app:defaultNavHost="true"
                     app:navGraph="@navigation/news_nav_graph" />
             </FrameLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"

@@ -56,7 +56,7 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
                             // hideErrorMessage()
                             it.data?.let {
                                 newsAdapter.differ.submitList(it.results.toList())
-                               // topHeadlinesAdapter.differ.submitList(it.results.toList())
+                                topHeadlinesAdapter.differ.submitList(it.results.toList())
                                 val totalPages = it.totalResults / com.example.newsapp.utils.Constants.QUERY_PAGE_SIZE +2
                                 isLastPage = newsViewModel.headlinesPage == totalPages
                                 if(isLastPage){
@@ -158,7 +158,7 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
 
 
            adapter =  newsAdapter
-                layoutManager = LinearLayoutManager(requireContext())
+                layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
                 addOnScrollListener(this@HeadlineFragment.scrollListener)
            }
 
