@@ -55,8 +55,9 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
                             hideProgressBar()
                             // hideErrorMessage()
                             it.data?.let {
-                                newsAdapter.differ.submitList(it.results.toList())
-                                topHeadlinesAdapter.differ.submitList(it.results.toList())
+                                val newsList = it.results.subList(1,it.results.size)
+                                newsAdapter.differ.submitList(newsList)
+                                topHeadlinesAdapter.differ.submitList(mutableListOf(it.results[0]))
                                 val totalPages = it.totalResults / com.example.newsapp.utils.Constants.QUERY_PAGE_SIZE +2
                                 isLastPage = newsViewModel.headlinesPage == totalPages
                                 if(isLastPage){
@@ -77,6 +78,12 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
                     }
                 })
             }
+        }
+        topHeadlinesAdapter.setOnClickListener {
+            val bundle = Bundle().apply {
+                putParcelable("article",it)
+            }
+            findNavController().navigate(R.id.action_headlineFragment_to_articleFragment,bundle)
         }
      newsAdapter.setOnClickListener {
     val bundle = Bundle().apply {
@@ -167,7 +174,7 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
     private fun setUpTopHeadlinesRecycler(){
 
         topHeadlinesAdapter = TopHeadlinesAdapter()
-        binding.recyclerHeadlines.apply {
+        binding.recyclerTopHeadlines.apply {
 
 
             adapter =  topHeadlinesAdapter

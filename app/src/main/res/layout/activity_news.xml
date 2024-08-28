@@ -62,10 +62,6 @@
 
 </LinearLayout>
 
-
-
-
-
             <FrameLayout
                 android:id="@+id/f1Fragment"
                 android:layout_width="match_parent"

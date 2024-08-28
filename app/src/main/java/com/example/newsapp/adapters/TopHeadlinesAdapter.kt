@@ -56,7 +56,7 @@ class TopHeadlinesAdapter: RecyclerView.Adapter<TopHeadlinesAdapter.NewsViewHold
     }
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
-        val article : Article = differ.currentList[position]
+        val article : Article = differ.currentList[0]
 
         holder.itemView.apply {
             Glide.with(this).load(article.image_url).into(holder.image_news)
