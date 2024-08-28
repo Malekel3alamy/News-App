@@ -6,5 +6,50 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+   <androidx.constraintlayout.widget.ConstraintLayout
+       android:layout_width="220dp"
+       android:layout_height="80dp"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintEnd_toEndOf="parent"
+       app:layout_constraintTop_toTopOf="parent"
+       app:layout_constraintBottom_toBottomOf="parent"
+
+       >
+
+       <ImageView
+           android:id="@+id/logoImage"
+           android:layout_width="80dp"
+           android:layout_height="80dp"
+           android:src="@drawable/subtract"
+           app:layout_constraintBottom_toBottomOf="parent"
+
+           app:layout_constraintStart_toStartOf="parent"
+
+           app:layout_constraintTop_toTopOf="parent" />
+
+       <TextView
+           android:id="@+id/pixelTV"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginStart="5dp"
+           android:fontFamily="@font/biorhyme_semibold"
+           android:text="Pixel"
+           android:textColor="#073B4C"
+           android:textSize="40dp"
+           android:textStyle="bold"
+           app:layout_constraintBottom_toBottomOf="@id/logoImage"
+           app:layout_constraintStart_toEndOf="@id/logoImage"
+           app:layout_constraintTop_toTopOf="@id/logoImage" />
+
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           app:layout_constraintStart_toEndOf="@id/pixelTV"
+           app:layout_constraintTop_toTopOf="@id/pixelTV"
+           android:text="TM"
+           android:textSize="13sp"
+           android:layout_marginStart="7dp"
+           />
+   </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

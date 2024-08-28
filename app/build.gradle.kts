@@ -89,6 +89,12 @@ dependencies {
     ksp("com.google.dagger:hilt-android-compiler:2.51.1")
     ksp("com.google.dagger:hilt-compiler:2.51.1")
 
+    // Splash Screen
+    implementation("androidx.core:core-splashscreen:1.2.0-alpha01")
+
+    // Circular Image
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

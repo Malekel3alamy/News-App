@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.R
 import com.example.newsapp.adapters.NewsAdapter
+import com.example.newsapp.adapters.TopHeadlinesAdapter
 import com.example.newsapp.ui.NewsActivity
 import com.example.newsapp.ui.NewsViewModel
 import com.example.newsapp.utils.Constants
@@ -34,6 +35,7 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
 
      val newsViewModel by viewModels<NewsViewModel>()
     private lateinit var newsAdapter : NewsAdapter
+    private lateinit var topHeadlinesAdapter: TopHeadlinesAdapter
     private lateinit var binding : FragmentHeadlineBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -42,6 +44,7 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
         binding = FragmentHeadlineBinding.bind(view)
 
         setUpHeadlinesRecycler()
+        setUpTopHeadlinesRecycler()
 
         if (newsViewModel.internetConnection((activity as NewsActivity).applicationContext)){
             lifecycleScope.launch {
@@ -53,6 +56,7 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
                             // hideErrorMessage()
                             it.data?.let {
                                 newsAdapter.differ.submitList(it.results.toList())
+                               // topHeadlinesAdapter.differ.submitList(it.results.toList())
                                 val totalPages = it.totalResults / com.example.newsapp.utils.Constants.QUERY_PAGE_SIZE +2
                                 isLastPage = newsViewModel.headlinesPage == totalPages
                                 if(isLastPage){
@@ -159,5 +163,18 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
            }
 
         }
+
+    private fun setUpTopHeadlinesRecycler(){
+
+        topHeadlinesAdapter = TopHeadlinesAdapter()
+        binding.recyclerHeadlines.apply {
+
+
+            adapter =  topHeadlinesAdapter
+            layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+            addOnScrollListener(this@HeadlineFragment.scrollListener)
+        }
+
+    }
 
 }
