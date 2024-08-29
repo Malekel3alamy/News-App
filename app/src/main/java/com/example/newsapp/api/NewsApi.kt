@@ -46,7 +46,7 @@ interface NewsApi {
         @Query("removeduplicate")
         removeDuplicate:Int = 1 ,
         @Query("category")
-        category : String ="sports"
+        category : String = "top"
 
 
     ) :Response<NewsResponse>
