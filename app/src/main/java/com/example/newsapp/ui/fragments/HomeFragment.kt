@@ -1,51 +1,43 @@
 package com.example.newsapp.ui.fragments
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.AbsListView
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.R
 import com.example.newsapp.adapters.NewsAdapter
 import com.example.newsapp.adapters.TopHeadlinesAdapter
 import com.example.newsapp.ui.NewsActivity
-import com.example.newsapp.ui.NewsViewModel
-import com.example.newsapp.utils.Constants
-import com.example.newsapp.databinding.FragmentHeadlineBinding
+import com.example.newsapp.ui.fragments.categories.viewmodels.NewsViewModel
+import com.example.newsapp.databinding.FragmentHomeBinding
 import com.example.newsapp.utils.Resources
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HeadlineFragment : Fragment(R.layout.fragment_headline) {
+class HomeFragment : Fragment(R.layout.fragment_home) {
 
      val newsViewModel by viewModels<NewsViewModel>()
     private lateinit var newsAdapter : NewsAdapter
     private lateinit var topHeadlinesAdapter: TopHeadlinesAdapter
-    private lateinit var binding : FragmentHeadlineBinding
+    private lateinit var binding : FragmentHomeBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentHeadlineBinding.bind(view)
+        binding = FragmentHomeBinding.bind(view)
 
         setUpHeadlinesRecycler()
         setUpTopHeadlinesRecycler()
 
+
+
+       newsViewModel.getHeadlines("top")
         if (newsViewModel.internetConnection((activity as NewsActivity).applicationContext)){
             lifecycleScope.launch {
                 newsViewModel.headlines.observe(viewLifecycleOwner, Observer {
@@ -55,14 +47,14 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
                             hideProgressBar()
                             // hideErrorMessage()
                             it.data?.let {
-                                val newsList = it.results.subList(1,it.results.size)
+
+                               val firstList = it.results.toList()
+
+                                val nextPageList = it.results.toList()
+                                val newsList = nextPageList.subList(1,it.results.size)
                                 newsAdapter.differ.submitList(newsList)
                                 topHeadlinesAdapter.differ.submitList(mutableListOf(it.results[0]))
-                                val totalPages = it.totalResults / com.example.newsapp.utils.Constants.QUERY_PAGE_SIZE +2
-                                isLastPage = newsViewModel.headlinesPage == totalPages
-                                if(isLastPage){
-                                    binding.recyclerHeadlines.setPadding(0,0,0,0)
-                                }
+                              //  newsAdapter.differ.currentList.addAll(newsAdapter.differ.currentList.size +1,it.results.toList())
                             }
                         }
                         is Resources.Error -> {
@@ -79,6 +71,11 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
                 })
             }
         }
+
+
+
+
+
         topHeadlinesAdapter.setOnClickListener {
             val bundle = Bundle().apply {
                 putParcelable("article",it)
@@ -101,8 +98,7 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
 
     var isError = false
     var isLoading = false
-    var isLastPage = false
-    var isScrolling = false
+
 
     private fun hideProgressBar(){
         binding.paginationProgressBar.visibility = View.GONE
@@ -114,7 +110,7 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
         binding.paginationProgressBar.visibility = View.VISIBLE
         isLoading = true
     }
-    /*private fun hideErrorMessage(){
+  /*  private fun hideErrorMessage(){
         itemHeadlinesError.visibility = View.INVISIBLE
         isError = false
     }*/
@@ -124,39 +120,6 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
         errorText.text = message
     }*/
 
-    val scrollListener  = object : RecyclerView.OnScrollListener() {
-
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
-            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
-            val visibleItemCount = layoutManager.childCount
-            val totalItemCount = layoutManager.itemCount
-
-            val isNoErrors = !isError
-            val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
-            val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
-            val isNotAtBeginning = firstVisibleItemPosition >= 0
-            val isTotalMoreThanvisible = totalItemCount >= Constants.QUERY_PAGE_SIZE
-            val shouldPaginate = isNoErrors && isNotLoadingAndNotLastPage
-                    && isNotAtBeginning && isTotalMoreThanvisible && isScrolling
-            if (shouldPaginate) {
-
-                isScrolling = false
-
-            }
-        }
-
-        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-            super.onScrollStateChanged(recyclerView, newState)
-
-
-            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-
-                isScrolling = true
-            }
-        }
-    }
 
         private fun setUpHeadlinesRecycler(){
 
@@ -166,7 +129,7 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
 
            adapter =  newsAdapter
                 layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
-                addOnScrollListener(this@HeadlineFragment.scrollListener)
+
            }
 
         }
@@ -179,7 +142,6 @@ class HeadlineFragment : Fragment(R.layout.fragment_headline) {
 
             adapter =  topHeadlinesAdapter
             layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
-            addOnScrollListener(this@HeadlineFragment.scrollListener)
         }
 
     }

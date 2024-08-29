@@ -5,7 +5,7 @@
     >
 
 <stroke
-    android:color="@color/purple"
+    android:color="@color/offWhite"
     android:width="2dp"/>
 
     <corners

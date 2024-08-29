@@ -10,6 +10,31 @@ import retrofit2.http.Query
 
 interface NewsApi {
 
+
+
+
+
+
+
+
+
+
+
+    @GET("latest")
+    suspend fun  getNextPage(
+        @Query("apikey")
+        apiKey:String = API_KEY,
+        @Query("image")
+        image : Int =1,
+        @Query("language")
+        language:String = "en",
+        @Query("removeduplicate")
+        removeDuplicate:Int = 1,
+        @Query("page")
+        page:String =""
+
+    ) :Response<NewsResponse>
+
     @GET("latest")
     suspend fun  getHeadlines(
         @Query("apikey")
@@ -17,7 +42,12 @@ interface NewsApi {
         @Query("image")
         image : Int =1,
         @Query("language")
-        language:String = "en"
+        language:String = "en",
+        @Query("removeduplicate")
+        removeDuplicate:Int = 1 ,
+        @Query("category")
+        category : String ="sports"
+
 
     ) :Response<NewsResponse>
 

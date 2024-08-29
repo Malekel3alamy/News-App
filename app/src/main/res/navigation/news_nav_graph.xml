@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/news_nav_graph"
-    app:startDestination="@id/headlineFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/headlineFragment"
-        android:name="com.example.newsapp.ui.fragments.HeadlineFragment"
+        android:id="@+id/homeFragment"
+        android:name="com.example.newsapp.ui.fragments.HomeFragment"
         android:label="HeadlineFragment"
-        tools:layout="@layout/fragment_headline" >
+        tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_headlineFragment_to_searchFragment"
             app:destination="@id/searchFragment" />
@@ -32,16 +32,36 @@
         android:id="@+id/searchFragment"
         tools:layout="@layout/fragment_search"
         android:name="com.example.newsapp.ui.fragments.SearchFragment"
-        android:label="SearchFragment" />
+        android:label="SearchFragment" >
+        <action
+            android:id="@+id/action_searchFragment_to_notificationsFragment2"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/favouritesFragment"
         android:name="com.example.newsapp.ui.fragments.FavoritesFragment"
         android:label="fragment_favorites"
-        tools:layout="@layout/fragment_favourites" />
+        tools:layout="@layout/fragment_favourites" >
+        <action
+            android:id="@+id/action_favouritesFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+    </fragment>
     <fragment
         android:id="@+id/articleFragment"
         android:name="com.example.newsapp.ui.fragments.ArticleFragment"
         android:label="ArticleFragment"
         tools:layout="@layout/fragment_article"
         />
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.example.newsapp.ui.fragments.NotificationsFragment"
+        android:label="fragment_notifications"
+        tools:layout="@layout/fragment_notifications" >
+        <action
+            android:id="@+id/action_notificationsFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_favouritesFragment"
+            app:destination="@id/favouritesFragment" />
+    </fragment>
 </navigation>

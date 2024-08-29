@@ -6,10 +6,8 @@ import android.view.View
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import com.example.newsapp.R
-import com.example.newsapp.ui.NewsActivity
-import com.example.newsapp.ui.NewsViewModel
+import com.example.newsapp.ui.fragments.categories.viewmodels.NewsViewModel
 import com.example.newsapp.databinding.FragmentArticleBinding
 import com.example.newsapp.models.Article
 import com.google.android.material.snackbar.Snackbar

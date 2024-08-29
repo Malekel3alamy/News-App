@@ -3,9 +3,9 @@
     <style name="Base.Theme.NewsApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="android:windowIsTranslucent">true</item>
-         <item name="colorPrimary">@color/purple</item>
-         <item name="colorPrimaryVariant">@color/purple</item>
-         <item name="android:statusBarColor">@color/purple</item>
+         <item name="colorPrimary">@color/offWhite</item>
+         <item name="colorPrimaryVariant">@color/offWhite</item>
+         <item name="android:statusBarColor">@color/offWhite</item>
     </style>
 
     <style name="Theme.NewsApp" parent="Base.Theme.NewsApp" />

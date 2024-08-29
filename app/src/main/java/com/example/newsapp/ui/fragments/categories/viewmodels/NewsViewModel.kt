@@ -1,9 +1,8 @@
-package com.example.newsapp.ui
+package com.example.newsapp.ui.fragments.categories.viewmodels
 
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,7 +17,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class NewsViewModel @Inject constructor(private val newsRepo :NewsRepo ) : ViewModel() {
+open class NewsViewModel @Inject constructor(private val newsRepo :NewsRepo ) : ViewModel() {
 
     val headlines = MutableLiveData<Resources<NewsResponse>>()
     var headlinesPage = 1
@@ -34,23 +33,32 @@ class NewsViewModel @Inject constructor(private val newsRepo :NewsRepo ) : ViewM
     var roomArticles :MutableLiveData<List<Article>?>? = null
 init {
 
-    getHeadlines()
+
     getFavouriteNews()
 }
 
 
- private fun getHeadlines() = viewModelScope.launch{
+  fun getHeadlines(category:String) = viewModelScope.launch{
 
     headlines.postValue(Resources.Loading())
 
-     val response = newsRepo.getHeadlines()
+     val response = newsRepo.getHeadlines(category)
 
     headlines.postValue(handleHeadlinesResponse(response))
 }
+    fun getNextPage(nextPage:String) {
+
+        viewModelScope.launch {
+                    newsRepo.getNextPage(headlines.value!!.data!!.nextPage)
+                   val result =  newsRepo.getNextPage(nextPage)
+                headlines.postValue(handleHeadlinesResponse(result))
+
+        }
+    }
 
     // handle network Response
 
-    private fun handleHeadlinesResponse(
+     fun handleHeadlinesResponse(
         response : Response<NewsResponse>
     ) : Resources<NewsResponse>{
 
