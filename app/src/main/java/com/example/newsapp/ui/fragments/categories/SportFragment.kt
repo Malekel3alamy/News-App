@@ -23,17 +23,19 @@ class SportFragment : Fragment(R.layout.fragment_sport) {
 lateinit var binding : FragmentSportBinding
 private val newsAdapter = NewsAdapter()
     private val categoriesViewModel by viewModels<CategoriesViewModel>()
+    private val newsViewModel by viewModels<NewsViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSportBinding.bind(view)
 
         setupRecyclerView()
-        categoriesViewModel.getHeadlines("sports")
+       // categoriesViewModel.getHeadlines("sports")
+        newsViewModel.getHeadlines("sports")
 
         if (categoriesViewModel.internetConnection((activity as NewsActivity).applicationContext)){
             lifecycleScope.launch {
-                categoriesViewModel.headlines.observe(viewLifecycleOwner, Observer {
+                newsViewModel.headlines.observe(viewLifecycleOwner, Observer {
 
                     when(it){
                         is Resources.Success<*> ->{
@@ -61,7 +63,7 @@ private val newsAdapter = NewsAdapter()
 
     }
 
-    fun setupRecyclerView(){
+    private fun setupRecyclerView(){
         binding.sportRv.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)

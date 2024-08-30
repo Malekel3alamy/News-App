@@ -48,7 +48,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                             // hideErrorMessage()
                             it.data?.let {
 
-                               val firstList = it.results.toList()
 
                                 val nextPageList = it.results.toList()
                                 val newsList = nextPageList.subList(1,it.results.size)

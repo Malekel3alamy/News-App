@@ -73,12 +73,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }.attach()
 
 
-
-
-
-
-
-
         itemSearchError = view.findViewById(R.id.itemSearchError)
         val inflater = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val ite_view_error = inflater.inflate(R.layout.item_error,null)
@@ -88,26 +82,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
 
         setUpSearchRecycler()
-      /*  newsAdapter.setOnItemClickListener {article ->
-            Log.d("Articel","$article")
-            val bundle = Bundle().apply{
-                article.id = 2
-                article.content=""
-                article.description=""
-                article.urlToImage = ""
-                article.author = ""
-                article.source?.id =""
-                putParcelable("article",article)
-                Log.d("Article","$article")
-            }
-            if(findNavController().currentDestination?.id == R.id.searchFragment && bundle!= null ){
 
-                findNavController().navigate(R.id.action_searchFragment_to_articleFragment,bundle)
-
-            }else{
-                Log.d("ItemClick","Error")
-            }
-        }*/
 
        var job: Job? = null
         binding.searchEdit.addTextChangedListener(){ editable ->
