@@ -13,7 +13,7 @@ import com.example.newsapp.R
 import com.example.newsapp.adapters.NewsAdapter
 import com.example.newsapp.adapters.TopHeadlinesAdapter
 import com.example.newsapp.ui.NewsActivity
-import com.example.newsapp.ui.fragments.categories.viewmodels.NewsViewModel
+import com.example.newsapp.ui.viewmodels.NewsViewModel
 import com.example.newsapp.databinding.FragmentHomeBinding
 import com.example.newsapp.utils.Resources
 import dagger.hilt.android.AndroidEntryPoint

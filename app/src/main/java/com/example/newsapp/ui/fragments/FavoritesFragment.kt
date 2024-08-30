@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.R
 import com.example.newsapp.adapters.NewsAdapter
 import com.example.newsapp.databinding.FragmentFavouritesBinding
-import com.example.newsapp.ui.fragments.categories.viewmodels.NewsViewModel
+import com.example.newsapp.ui.viewmodels.NewsViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

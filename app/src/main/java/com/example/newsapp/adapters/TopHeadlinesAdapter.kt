@@ -63,14 +63,14 @@ class TopHeadlinesAdapter: RecyclerView.Adapter<TopHeadlinesAdapter.NewsViewHold
             holder.article_title_tv.text = article.title
 
             holder.article_category_tv.text = article.category[0] ?: article.ai_tag
-            var dateFormat = SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().time)
             var myDate =article.pubDate
+         /*   var dateFormat = SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().time)
             val sdf = SimpleDateFormat("MM-dd-yyyy HH:mm:ss", Locale.ENGLISH)
             val date1 = sdf.parse(dateFormat)
             val date2 = sdf.parse(myDate)
             val difference =   Math.abs(date1.time - date2.time)
-            val diff = TimeUnit.HOURS.convert(difference, TimeUnit.HOURS)
-            holder.article_date_time_tv.text = (diff.toString())
+            val diff = TimeUnit.HOURS.convert(difference, TimeUnit.HOURS)*/
+            holder.article_date_time_tv.text = myDate
             setOnClickListener{
                 onItemClickListener.let {
                     it?.let { it1 ->

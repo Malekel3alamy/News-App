@@ -134,6 +134,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/paginationProgressBar"
             android:visibility="invisible"
+            android:indeterminateDrawable="@drawable/progress_bar_bg"
             android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

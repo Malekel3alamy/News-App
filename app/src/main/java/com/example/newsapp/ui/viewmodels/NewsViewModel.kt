@@ -1,4 +1,4 @@
-package com.example.newsapp.ui.fragments.categories.viewmodels
+package com.example.newsapp.ui.viewmodels
 
 import android.content.Context
 import android.net.ConnectivityManager

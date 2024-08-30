@@ -7,7 +7,7 @@ import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.newsapp.R
-import com.example.newsapp.ui.fragments.categories.viewmodels.NewsViewModel
+import com.example.newsapp.ui.viewmodels.NewsViewModel
 import com.example.newsapp.databinding.FragmentArticleBinding
 import com.example.newsapp.models.Article
 import com.google.android.material.snackbar.Snackbar

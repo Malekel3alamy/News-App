@@ -1,6 +1,7 @@
 package com.example.newsapp.adapters
 
 import android.icu.text.SimpleDateFormat
+import android.os.Build
 import android.text.format.DateFormat
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.core.math.MathUtils
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -16,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.util.Util
 import com.example.newsapp.R
 import com.example.newsapp.models.Article
+import java.time.LocalTime
 import java.util.Calendar
 import java.util.Locale
 import java.util.concurrent.TimeUnit
@@ -61,6 +64,7 @@ open class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
         return differ.currentList.size
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val article : Article = differ.currentList[position]
 
@@ -71,14 +75,12 @@ open class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
             holder.article_title_tv.text = article.title
 
             holder.article_category_tv.text = article.category[0] ?: article.ai_tag
-            var dateFormat = SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().time)
+          //  var dateFormat = SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().time)
+           // var dateFormat = SimpleDateFormat("MM-dd-yyyy HH:mm")
+
+           // val date2 = dateFormat.parse(myDate)
             var myDate =article.pubDate
-           val sdf = SimpleDateFormat("MM-dd-yyyy HH:mm:ss",Locale.ENGLISH)
-            val date1 = sdf.parse(dateFormat)
-            val date2 = sdf.parse(myDate)
-                val difference =   Math.abs(date1.time - date2.time)
-            val diff = TimeUnit.HOURS.convert(difference,TimeUnit.HOURS)
-            holder.article_date_time_tv.text = (diff.toString())
+            holder.article_date_time_tv.text = myDate
             setOnClickListener{
                 onItemClickListener.let {
                     it?.let { it1 ->

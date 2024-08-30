@@ -19,7 +19,7 @@ import com.example.newsapp.R
 import com.example.newsapp.adapters.HomeViewPagerAdapter
 import com.example.newsapp.adapters.NewsAdapter
 import com.example.newsapp.databinding.FragmentSearchBinding
-import com.example.newsapp.ui.fragments.categories.viewmodels.NewsViewModel
+import com.example.newsapp.ui.viewmodels.NewsViewModel
 import com.example.newsapp.ui.fragments.categories.BusinessFragment
 import com.example.newsapp.ui.fragments.categories.EntertainmentFragment
 import com.example.newsapp.ui.fragments.categories.SportFragment
