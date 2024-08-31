@@ -58,7 +58,13 @@ interface NewsApi {
         searchQuery : String ,
 
         @Query("apiKey")
-        apiKey:String = API_KEY
+        apiKey:String = API_KEY,
+        @Query("image")
+    image : Int =1,
+    @Query("language")
+    language:String = "en",
+    @Query("removeduplicate")
+    removeDuplicate:Int = 1 ,
 
     ) : Response<NewsResponse>
 }

@@ -58,16 +58,6 @@
                 android:textSize="23dp"
 
                 />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/currentUserImage"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginEnd="10dp"
-                android:src="@color/blue"
-                android:layout_gravity="center_vertical"
-                app:civ_border_width="0dp" />
-
         </LinearLayout>
         <TextView
             android:id="@+id/newsForYouTV"

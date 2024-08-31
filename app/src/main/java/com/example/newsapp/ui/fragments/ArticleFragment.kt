@@ -49,7 +49,7 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
 
         binding.fab.setOnClickListener {
             newsViewModel.addToFavourite(article!!)
-            Snackbar.make(view," Added To Favourites ",Snackbar.LENGTH_LONG).show()
+            Snackbar.make(requireView()," Added To Favourites ",Snackbar.LENGTH_LONG).show()
 
         }
     }

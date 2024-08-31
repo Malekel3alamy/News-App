@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsapp.R
 import com.example.newsapp.adapters.NewsAdapter
@@ -56,7 +57,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             when (it) {
 
                 is Resources.Success<*> -> {
-
+                       hidePR()
+                    hideSearchImage()
                     it.data?.let {
 
                         newsAdapter.differ.submitList(it.results.toList())
@@ -64,8 +66,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 }
 
                 is Resources.Error -> {
-
-
+                    hidePR()
+                     showSearchImage()
                     it.message?.let { message ->
                         Toast.makeText(activity, " Sorry Erro $message", Toast.LENGTH_SHORT).show()
 
@@ -75,13 +77,19 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 }
 
                 is Resources.Loading -> {
-
+                    hideSearchImage()
+                   showPR()
 
                 }
             }
         })
 
-
+        newsAdapter.setOnClickListener {
+            val bundle = Bundle().apply {
+                putParcelable("article",it)
+            }
+            findNavController().navigate(R.id.action_searchFragment_to_articleFragment,bundle)
+        }
     }
 
     private fun setUpSearchRecycler(){
@@ -96,5 +104,22 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
 
     }
+
+    private fun showPR(){
+        binding.searchProgressBar.visibility = View.VISIBLE
+    }
+    private fun hidePR(){
+        binding.searchProgressBar.visibility = View.GONE
+    }
+
+    private fun showSearchImage(){
+        binding.searchImage.visibility = View.VISIBLE
+        binding.recyclerSearch.visibility = View.GONE
+    }
+    private fun hideSearchImage(){
+        binding.searchImage.visibility = View.GONE
+        binding.recyclerSearch.visibility = View.VISIBLE
+    }
+
 
 }

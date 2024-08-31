@@ -89,7 +89,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favourites) {
 
 
             adapter = newsAdapter
-            layoutManager = LinearLayoutManager(activity)
+            layoutManager = LinearLayoutManager(requireActivity())
         }
     }
 
