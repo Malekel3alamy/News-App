@@ -1,5 +1,6 @@
 package com.example.newsapp.ui.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.newsapp.models.NewsResponse
@@ -23,27 +24,23 @@ class CategoriesViewModel@Inject constructor(val  newsRepo: NewsRepo) : NewsView
     fun getCategoryNews(category: String) = viewModelScope.launch {
        val result =  newsRepo.getHeadlines(category = category)
 
-        when(category){
-            "sports" -> {
-                val response = super.handleHeadlinesResponse(result)
-                sportNews.emit(response)
-            }
 
-            "technology" ->{
-                val response = super.handleHeadlinesResponse(result)
-                technologiesNews.emit(response)
-            }
-            "business" ->{
-                val response = super.handleHeadlinesResponse(result)
-                businessNews.emit(response)
-            }
-            "entertainment" ->{
-                val response = super.handleHeadlinesResponse(result)
-                entertainmentNews.emit(response)
-            }
-            else -> Unit
-        }
+
+
+        val response = super.handleHeadlinesResponse(result)
+
+            sportNews.emit(response)
 
 
     }
+
+    /*  if (category == "sports") {
+            sportNews.emit(response)
+        }else if(category == "business"){
+            businessNews.emit(response)
+        }else if(category == "technology"){
+            technologiesNews.emit(response)
+        }else if(category == "entertainment"){
+            entertainmentNews.emit(response)
+        }*/
 }

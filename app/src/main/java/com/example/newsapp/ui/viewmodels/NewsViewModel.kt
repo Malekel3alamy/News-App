@@ -14,6 +14,7 @@ import com.example.newsapp.utils.Resources
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -34,7 +35,7 @@ open class NewsViewModel @Inject constructor(private val newsRepo :NewsRepo ) : 
     var newSearchQuery : String? = null
     var oldSearchQuery:String? = null
 
-    var roomArticles =MutableSharedFlow< Resources<List<Article>>>()
+    var roomArticles = MutableStateFlow< Resources<List<Article>>>(Resources.Loading())
 
 
 
@@ -106,7 +107,7 @@ open class NewsViewModel @Inject constructor(private val newsRepo :NewsRepo ) : 
 
 
     fun addToFavourite(article: Article) = viewModelScope.launch {
-
+          Log.d("ArticleUpsert",article.title)
         val result = newsRepo.upsert(article)
         if (result > 0){
             Log.d("UpsertResult" ," Succeeded To Upsert ")
@@ -119,7 +120,7 @@ open class NewsViewModel @Inject constructor(private val newsRepo :NewsRepo ) : 
     fun getFavouriteNews() =viewModelScope.launch(Dispatchers.Default){
         roomArticles.emit(Resources.Loading())
        val roomResult = newsRepo.getAllArticles()
-        Log.d("ListSize",roomResult.size.toString())
+
         roomArticles.emit(Resources.Success(roomResult))
 
    }

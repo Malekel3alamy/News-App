@@ -1,5 +1,6 @@
 package com.example.newsapp.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,7 @@ class RoomNewsAdapter: RecyclerView.Adapter<RoomNewsAdapter.RoomNewsViewHolder>(
 
     private val differCallback = object : DiffUtil.ItemCallback<Article>() {
         override fun areContentsTheSame(oldItem: Article, newItem: Article): Boolean {
-            return oldItem.link == newItem.link
+            return oldItem.article_id == newItem.article_id
         }
 
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
@@ -35,15 +36,11 @@ class RoomNewsAdapter: RecyclerView.Adapter<RoomNewsAdapter.RoomNewsViewHolder>(
         }
 
     }
-
     val roomDiffer = AsyncListDiffer(this, differCallback)
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomNewsViewHolder {
         return RoomNewsViewHolder(
-
-            LayoutInflater.from(parent.context).inflate(R.layout.room_news_item, parent, false)
-        )
+            LayoutInflater.from(parent.context).inflate(R.layout.room_news_item, parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -51,12 +48,12 @@ class RoomNewsAdapter: RecyclerView.Adapter<RoomNewsAdapter.RoomNewsViewHolder>(
     }
 
     override fun onBindViewHolder(holder: RoomNewsViewHolder, position: Int) {
-        val article : Article = roomDiffer.currentList[0]
+        val article : Article = roomDiffer.currentList[position]
 
         holder.itemView.apply {
             Glide.with(this).load(article.image_url).into(holder.imageRoom)
             holder.articleTitleRoom.text = article.title
-
+           Log.d("ArticleTitle",article.title)
             holder.articleCategoryRoom.text = article.category[0]
             var myDate =article.pubDate
             holder.articleDateRoom.text = myDate
@@ -67,9 +64,6 @@ class RoomNewsAdapter: RecyclerView.Adapter<RoomNewsAdapter.RoomNewsViewHolder>(
               onDeleteImageClickListener?.invoke(article)
           }
         }
-
-
-
     }
      var onItemClickListener : ((Article) -> Unit)? = null
     var onDeleteImageClickListener : ((Article) -> Unit)? = null

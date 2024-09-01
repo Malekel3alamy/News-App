@@ -11,19 +11,19 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class BusinessFragment : SportFragment() {
+class BusinessFragment : MainCategoryFragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
-         categoriesViewModel.getHeadlines("business")
+         categoriesViewModel.getCategoryNews("business")
         //newsViewModel.getHeadlines("business")
 
         if (categoriesViewModel.internetConnection((activity as NewsActivity).applicationContext)){
             lifecycleScope.launch {
-                categoriesViewModel.businessNews.collectLatest{
+                categoriesViewModel.sportNews.collectLatest{
 
                     when(it){
                         is Resources.Success<*> ->{
@@ -31,8 +31,11 @@ class BusinessFragment : SportFragment() {
                             it.data?.let {
 
                                 val firstList = it.results.toList()
-                                newsAdapter.differ.submitList(emptyList())
-                                newsAdapter.differ.submitList(firstList)
+
+                               if (firstList[0].category.toString() ==   "business" ){
+                                   newsAdapter.differ.submitList(firstList)
+                               }
+
                             }
                         }
                         is Resources.Error -> {

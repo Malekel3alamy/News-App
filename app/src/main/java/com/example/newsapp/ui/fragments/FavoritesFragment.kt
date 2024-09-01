@@ -14,6 +14,7 @@ import com.example.newsapp.R
 import com.example.newsapp.adapters.NewsAdapter
 import com.example.newsapp.adapters.RoomNewsAdapter
 import com.example.newsapp.databinding.FragmentFavouritesBinding
+import com.example.newsapp.models.Article
 import com.example.newsapp.ui.viewmodels.NewsViewModel
 import com.example.newsapp.utils.Resources
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,8 +38,9 @@ class FavoritesFragment : Fragment(R.layout.fragment_favourites) {
         // Setting articles list for the adapter
 
             lifecycleScope.launch {
+
                 newsViewModel.getFavouriteNews()
-                newsViewModel.roomArticles.collectLatest {
+                newsViewModel.roomArticles.collect {
                     when (it) {
                         is Resources.Error -> {
                             hideProgressBar()
@@ -51,7 +53,9 @@ class FavoritesFragment : Fragment(R.layout.fragment_favourites) {
                         }
 
                         is Resources.Success -> {
+
                             hideProgressBar()
+
                             roomNewsAdapter.roomDiffer.submitList(it.data)
                             Log.d(
                                 "Listsize",

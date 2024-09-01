@@ -53,10 +53,9 @@ class ArticleFragment : Fragment(R.layout.fragment_article) {
         }
 
 
-
-
         binding.fab.setOnClickListener {
             Log.d("Article",article!!.title)
+            article!!.id = article!!.article_id.toInt()
             newsViewModel.addToFavourite(article!!)
             Snackbar.make(requireView()," Added To Favourites ",Snackbar.LENGTH_SHORT).show()
             Log.d("Article",article!!.id.toString())

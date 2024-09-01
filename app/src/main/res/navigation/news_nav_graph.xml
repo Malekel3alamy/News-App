@@ -34,7 +34,7 @@
         android:name="com.example.newsapp.ui.fragments.CategoriesFragment"
         android:label="SearchFragment" >
         <action
-            android:id="@+id/action_searchFragment_to_articleFragment"
+            android:id="@+id/action_categoriesFragment_to_articleFragment"
             app:destination="@id/articleFragment" />
     </fragment>
     <fragment

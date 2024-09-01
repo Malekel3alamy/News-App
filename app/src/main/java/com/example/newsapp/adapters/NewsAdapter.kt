@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.example.newsapp.R
 import com.example.newsapp.models.Article
 
-open class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
+ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
 
     inner class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -22,8 +22,6 @@ open class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
         val image_news: ImageView = itemView.findViewById(R.id.articleImage)
         val article_title_tv: TextView = itemView.findViewById(R.id.articleTitle)
         val article_category_tv: TextView = itemView.findViewById(R.id.articleCategory)
-
-
         val article_date_time_tv: TextView = itemView.findViewById(R.id.articleDateTime)
 
     }

@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class EntertainmentFragment : SportFragment() {
+class EntertainmentFragment : MainCategoryFragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -23,7 +23,7 @@ class EntertainmentFragment : SportFragment() {
 
         if (categoriesViewModel.internetConnection((activity as NewsActivity).applicationContext)){
             lifecycleScope.launch {
-                categoriesViewModel.entertainmentNews.collectLatest {
+                categoriesViewModel.sportNews.collectLatest {
 
                     when(it){
                         is Resources.Success<*> ->{

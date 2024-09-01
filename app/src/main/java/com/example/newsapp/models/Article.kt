@@ -11,7 +11,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Article(
     @PrimaryKey(autoGenerate = true)
-    var id : Int= 0,
+    var id : Int?,
     val ai_org: String,
     val ai_region: String,
     val ai_tag: String,
