@@ -1,6 +1,7 @@
 package com.example.newsapp.db
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -13,11 +14,11 @@ import com.example.newsapp.models.Article
 interface ArticleDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsert(article: Article) : Long
+    suspend fun upsert(article: Article) :Long
 
 
-    @Query(" SELECT * FROM articles")
-    fun  getAllArticles() : LiveData<List<Article>>
+    @Query("SELECT * FROM articles")
+    fun  getAllArticles() : List<Article>
 
     @Delete
     suspend fun deleteArticle(article: Article)

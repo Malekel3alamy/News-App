@@ -3,11 +3,11 @@ package com.example.newsapp.ui.fragments.categories
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.example.newsapp.ui.NewsActivity
 import com.example.newsapp.utils.Resources
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
@@ -25,7 +25,7 @@ class TechnologiesFragment : SportFragment() {
 
         if (categoriesViewModel.internetConnection((activity as NewsActivity).applicationContext)){
             lifecycleScope.launch {
-                categoriesViewModel.technologiesNews.observe(viewLifecycleOwner, Observer {
+                categoriesViewModel.technologiesNews.collectLatest {
 
                     when(it){
                         is Resources.Success<*> ->{
@@ -47,7 +47,7 @@ class TechnologiesFragment : SportFragment() {
                             showPR()
                         }
                     }
-                })
+                }
             }
         }
 

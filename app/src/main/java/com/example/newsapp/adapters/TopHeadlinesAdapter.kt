@@ -1,6 +1,5 @@
 package com.example.newsapp.adapters
 
-import android.icu.text.SimpleDateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.newsapp.R
 import com.example.newsapp.models.Article
-import java.util.Calendar
-import java.util.Locale
-import java.util.concurrent.TimeUnit
 
 class TopHeadlinesAdapter: RecyclerView.Adapter<TopHeadlinesAdapter.NewsViewHolder>() {
 
@@ -22,11 +18,11 @@ class TopHeadlinesAdapter: RecyclerView.Adapter<TopHeadlinesAdapter.NewsViewHold
     inner class NewsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val image_news: ImageView = itemView.findViewById(R.id.topHeadlinesImage)
-        val article_title_tv: TextView = itemView.findViewById(R.id.topHeadlinesTitle)
-        val article_category_tv: TextView = itemView.findViewById(R.id.topHeadlinesCategory)
+        val article_title_tv: TextView = itemView.findViewById(R.id.TopHeadlinesTitle)
+        val article_category_tv: TextView = itemView.findViewById(R.id.TopNewsCategory)
 
 
-        val article_date_time_tv: TextView = itemView.findViewById(R.id.topHeadlinesDate)
+        val article_date_time_tv: TextView = itemView.findViewById(R.id.TopNewsDate)
 
     }
 
@@ -64,12 +60,6 @@ class TopHeadlinesAdapter: RecyclerView.Adapter<TopHeadlinesAdapter.NewsViewHold
 
             holder.article_category_tv.text = article.category[0] ?: article.ai_tag
             var myDate =article.pubDate
-         /*   var dateFormat = SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().time)
-            val sdf = SimpleDateFormat("MM-dd-yyyy HH:mm:ss", Locale.ENGLISH)
-            val date1 = sdf.parse(dateFormat)
-            val date2 = sdf.parse(myDate)
-            val difference =   Math.abs(date1.time - date2.time)
-            val diff = TimeUnit.HOURS.convert(difference, TimeUnit.HOURS)*/
             holder.article_date_time_tv.text = myDate
             setOnClickListener{
                 onItemClickListener.let {

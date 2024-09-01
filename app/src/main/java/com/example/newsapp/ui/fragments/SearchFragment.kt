@@ -2,13 +2,11 @@ package com.example.newsapp.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsapp.R
@@ -21,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -30,7 +29,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     val newsViewModel by viewModels<NewsViewModel>()
     lateinit var newsAdapter : NewsAdapter
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override  fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSearchBinding.bind(view)
 
@@ -51,38 +50,40 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             }
 
         }
+lifecycleScope.launch {
+    newsViewModel.searchNews.collectLatest{
 
-        newsViewModel.searchNews.observe(viewLifecycleOwner, Observer {
+        when (it) {
 
-            when (it) {
+            is Resources.Success<*> -> {
+                hidePR()
+                hideSearchImage()
+                it.data?.let {
 
-                is Resources.Success<*> -> {
-                       hidePR()
-                    hideSearchImage()
-                    it.data?.let {
-
-                        newsAdapter.differ.submitList(it.results.toList())
-                    }
-                }
-
-                is Resources.Error -> {
-                    hidePR()
-                     showSearchImage()
-                    it.message?.let { message ->
-                        Toast.makeText(activity, " Sorry Erro $message", Toast.LENGTH_SHORT).show()
-
-                    }
-
-
-                }
-
-                is Resources.Loading -> {
-                    hideSearchImage()
-                   showPR()
-
+                    newsAdapter.differ.submitList(it.results.toList())
                 }
             }
-        })
+
+            is Resources.Error -> {
+                hidePR()
+                showSearchImage()
+                it.message?.let { message ->
+                    Toast.makeText(activity, " Sorry Erro $message", Toast.LENGTH_SHORT).show()
+
+                }
+
+
+            }
+
+            is Resources.Loading -> {
+                hideSearchImage()
+                showPR()
+
+            }
+        }
+    }
+}
+
 
         newsAdapter.setOnClickListener {
             val bundle = Bundle().apply {

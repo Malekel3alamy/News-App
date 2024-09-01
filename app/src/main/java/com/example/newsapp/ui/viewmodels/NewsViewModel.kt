@@ -3,6 +3,7 @@ package com.example.newsapp.ui.viewmodels
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,6 +12,9 @@ import com.example.newsapp.models.NewsResponse
 import com.example.newsapp.repo.NewsRepo
 import com.example.newsapp.utils.Resources
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
@@ -19,42 +23,38 @@ import javax.inject.Inject
 @HiltViewModel
 open class NewsViewModel @Inject constructor(private val newsRepo :NewsRepo ) : ViewModel() {
 
-    val headlines = MutableLiveData<Resources<NewsResponse>>()
+    val headlines = MutableSharedFlow<Resources<NewsResponse>>()
     var headlinesPage = 1
     var headlinesResponse : NewsResponse? = null
 
-    val searchNews = MutableLiveData<Resources<NewsResponse>>()
+    val searchNews = MutableSharedFlow<Resources<NewsResponse>>()
     var  searchNewsPage = 1
     var searchNewsResponse : NewsResponse? = null
 
     var newSearchQuery : String? = null
     var oldSearchQuery:String? = null
 
-    var roomArticles :MutableLiveData<List<Article>?>? = null
-init {
+    var roomArticles =MutableSharedFlow< Resources<List<Article>>>()
 
-
-    getFavouriteNews()
-}
 
 
   fun getHeadlines(category:String) = viewModelScope.launch{
 
-    headlines.postValue(Resources.Loading())
+    headlines.emit(Resources.Loading())
 
      val response = newsRepo.getHeadlines(category)
 
-    headlines.postValue(handleHeadlinesResponse(response))
+    headlines.emit(handleHeadlinesResponse(response))
 }
-    fun getNextPage(nextPage:String) {
+  /*  fun getNextPage(nextPage:String) {
 
         viewModelScope.launch {
                     newsRepo.getNextPage(headlines.value!!.data!!.nextPage)
                    val result =  newsRepo.getNextPage(nextPage)
-                headlines.postValue(handleHeadlinesResponse(result))
+                headlines.(handleHeadlinesResponse(result))
 
         }
-    }
+    }*/
 
     // handle network Response
 
@@ -107,20 +107,27 @@ init {
 
     fun addToFavourite(article: Article) = viewModelScope.launch {
 
-        newsRepo.upsert(article)
+        val result = newsRepo.upsert(article)
+        if (result > 0){
+            Log.d("UpsertResult" ," Succeeded To Upsert ")
+        }else{
+            Log.d("UpsertResult" ," Failed To Upsert ")
+        }
+
     }
 
-   private fun getFavouriteNews() = {
-       val roomResult = newsRepo.getAllArticles().value
-       if (roomResult!= null){
-           roomArticles?.postValue(roomResult)
-       }
+    fun getFavouriteNews() =viewModelScope.launch(Dispatchers.Default){
+        roomArticles.emit(Resources.Loading())
+       val roomResult = newsRepo.getAllArticles()
+        Log.d("ListSize",roomResult.size.toString())
+        roomArticles.emit(Resources.Success(roomResult))
 
    }
 
     fun deleteArticle (article: Article) = viewModelScope.launch {
 
         newsRepo.deleteArticle(article)
+        getFavouriteNews()
     }
 
     fun internetConnection(context: Context) : Boolean {
@@ -147,10 +154,10 @@ init {
 
     fun getSearchNews(queryString : String) = viewModelScope.launch {
 
-        searchNews.postValue(Resources.Loading())
+        searchNews.emit(Resources.Loading())
 
         val searchResponse = newsRepo.searchforNews(queryString)
-        searchNews.postValue(handleSearchNewsResponse(searchResponse))
+        searchNews.emit(handleSearchNewsResponse(searchResponse))
 
     }
 

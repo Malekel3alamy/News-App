@@ -6,6 +6,8 @@ import com.example.newsapp.models.NewsResponse
 import com.example.newsapp.repo.NewsRepo
 import com.example.newsapp.utils.Resources
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -13,10 +15,10 @@ import javax.inject.Inject
 class CategoriesViewModel@Inject constructor(val  newsRepo: NewsRepo) : NewsViewModel(newsRepo) {
 
 
-    val sportNews= MutableLiveData<Resources<NewsResponse>>()
-    val entertainmentNews= MutableLiveData<Resources<NewsResponse>>()
-    val technologiesNews= MutableLiveData<Resources<NewsResponse>>()
-    val businessNews= MutableLiveData<Resources<NewsResponse>>()
+    val sportNews= MutableStateFlow<Resources<NewsResponse>>(Resources.Loading())
+    val entertainmentNews= MutableStateFlow<Resources<NewsResponse>>(Resources.Loading())
+    val technologiesNews= MutableStateFlow<Resources<NewsResponse>>(Resources.Loading())
+    val businessNews= MutableStateFlow<Resources<NewsResponse>>(Resources.Loading())
 
     fun getCategoryNews(category: String) = viewModelScope.launch {
        val result =  newsRepo.getHeadlines(category = category)
@@ -24,20 +26,20 @@ class CategoriesViewModel@Inject constructor(val  newsRepo: NewsRepo) : NewsView
         when(category){
             "sports" -> {
                 val response = super.handleHeadlinesResponse(result)
-                sportNews.postValue(response)
+                sportNews.emit(response)
             }
 
             "technology" ->{
                 val response = super.handleHeadlinesResponse(result)
-                technologiesNews.postValue(response)
+                technologiesNews.emit(response)
             }
             "business" ->{
                 val response = super.handleHeadlinesResponse(result)
-                businessNews.postValue(response)
+                businessNews.emit(response)
             }
             "entertainment" ->{
                 val response = super.handleHeadlinesResponse(result)
-                entertainmentNews.postValue(response)
+                entertainmentNews.emit(response)
             }
             else -> Unit
         }

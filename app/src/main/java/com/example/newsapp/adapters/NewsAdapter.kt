@@ -1,29 +1,18 @@
 package com.example.newsapp.adapters
 
-import android.icu.text.SimpleDateFormat
 import android.os.Build
-import android.text.format.DateFormat
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.core.math.MathUtils
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.util.Util
 import com.example.newsapp.R
 import com.example.newsapp.models.Article
-import java.time.LocalTime
-import java.util.Calendar
-import java.util.Locale
-import java.util.concurrent.TimeUnit
-import kotlin.jvm.internal.Intrinsics.Kotlin
-import kotlin.time.Duration
 
 open class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
@@ -73,20 +62,20 @@ open class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
 
             holder.article_title_tv.text = article.title
-
             holder.article_category_tv.text = article.category[0] ?: article.ai_tag
-          //  var dateFormat = SimpleDateFormat("MM-dd-yyyy HH:mm:ss").format(Calendar.getInstance().time)
-           // var dateFormat = SimpleDateFormat("MM-dd-yyyy HH:mm")
-
-           // val date2 = dateFormat.parse(myDate)
             var myDate =article.pubDate
             holder.article_date_time_tv.text = myDate
             setOnClickListener{
-                onItemClickListener.let {
-                    it?.let { it1 ->
-                        it1(article)
+                if (article.link.isNullOrEmpty()){
+
+                }else{
+                    onItemClickListener.let {
+                        it?.let { it1 ->
+                            it1(article)
+                        }
                     }
                 }
+
             }
 
         }

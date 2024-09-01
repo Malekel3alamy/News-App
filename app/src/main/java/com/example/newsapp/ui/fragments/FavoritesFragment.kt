@@ -1,98 +1,101 @@
 package com.example.newsapp.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.newsapp.R
 import com.example.newsapp.adapters.NewsAdapter
+import com.example.newsapp.adapters.RoomNewsAdapter
 import com.example.newsapp.databinding.FragmentFavouritesBinding
 import com.example.newsapp.ui.viewmodels.NewsViewModel
-import com.google.android.material.snackbar.Snackbar
+import com.example.newsapp.utils.Resources
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class FavoritesFragment : Fragment(R.layout.fragment_favourites) {
 
-    val newsViewModel by viewModels<NewsViewModel>()
+    private val newsViewModel by viewModels<NewsViewModel>()
 
-    lateinit var newsAdapter: NewsAdapter
-    lateinit var binding : FragmentFavouritesBinding
+     private val roomNewsAdapter = RoomNewsAdapter()
+    private lateinit var binding : FragmentFavouritesBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentFavouritesBinding.bind(view)
 
-
-
         setUpFavouritesRecycler()
         // Setting articles list for the adapter
-        if (newsViewModel.roomArticles != null){
+
             lifecycleScope.launch {
-                newsViewModel.roomArticles!!.observe(viewLifecycleOwner, Observer {
-                        articles ->
+                newsViewModel.getFavouriteNews()
+                newsViewModel.roomArticles.collectLatest {
+                    when (it) {
+                        is Resources.Error -> {
+                            hideProgressBar()
+                            Toast.makeText(requireContext(), " ${it.message}", Toast.LENGTH_LONG)
+                                .show()
+                        }
 
-                    newsAdapter.differ.submitList(articles)
+                        is Resources.Loading -> {
+                            showProgressBar()
+                        }
 
-                })
+                        is Resources.Success -> {
+                            hideProgressBar()
+                            roomNewsAdapter.roomDiffer.submitList(it.data)
+                            Log.d(
+                                "Listsize",
+                                roomNewsAdapter.roomDiffer.currentList.size.toString()
+                            )
+                        }
+                    }
+
+                }
             }
-        }
 
-        newsAdapter.setOnClickListener {
-            val bundle =Bundle().apply {
 
-                putParcelable("article",it)
+        roomNewsAdapter.onItemClickListener ={
+            val bundle = Bundle().apply {
+
+                putParcelable("article", it)
             }
+            findNavController().navigate(R.id.action_favouritesFragment_to_articleFragment,bundle)
 
         }
-
- val itemTouchHelperCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN,
-  ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT){
-     override fun onMove(
-         recyclerView: RecyclerView,
-         viewHolder: RecyclerView.ViewHolder,
-         target: RecyclerView.ViewHolder
-     ): Boolean {
-         return  true
-     }
-
-     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
-         val position = viewHolder.adapterPosition
-         val article = newsAdapter.differ.currentList[position]
-         newsViewModel.deleteArticle(article)
-         Snackbar.make(view," Article Deleted ",Snackbar.LENGTH_LONG)
-             .setAction(" Undo"){
-                 newsViewModel.addToFavourite(article)
-             }.show()
-     }
- }
-
-     ItemTouchHelper(itemTouchHelperCallback).apply {
-         attachToRecyclerView(binding.recyclerFavourites)
-     }
-
+        roomNewsAdapter.onDeleteImageClickListener={
+            newsViewModel.deleteArticle(it)
+            roomNewsAdapter.notifyDataSetChanged()
+        }
 
     }
-
 
     private fun setUpFavouritesRecycler() {
 
-        newsAdapter = NewsAdapter()
         binding.recyclerFavourites.apply {
-
-
-            adapter = newsAdapter
-            layoutManager = LinearLayoutManager(requireActivity())
+            adapter = roomNewsAdapter
+            layoutManager = LinearLayoutManager(requireActivity(),LinearLayoutManager.VERTICAL,false)
         }
     }
+    private fun hideProgressBar(){
+        binding.bookmarksProgressBar.visibility = View.GONE
 
+    }
+
+    private fun showProgressBar(){
+
+        binding.bookmarksProgressBar.visibility = View.VISIBLE
+
+    }
 
 
 

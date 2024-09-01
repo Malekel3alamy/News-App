@@ -11,10 +11,16 @@
     </style>
 
     <style name="CutCorners" >
-        <item name="cornerFamily">cut</item>
+        <item name="cornerFamily">rounded</item>
         <item name="cornerSize">0dp</item>
-        <item name="cornerSizeTopLeft">15dp</item>
-        <item name="cornerSizeTopRight">15dp</item>
+        <item name="cornerSizeTopLeft">10dp</item>
+        <item name="cornerSizeTopRight">10dp</item>
     </style>
 
+    <style name="Widget.BottomNavigationView.ActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="shapeAppearance">
+            @style/ShapeAppearance.M3.Comp.NavigationBar.ActiveIndicator.Shape
+        </item>
+        <item name="android:color">@color/offWhite</item>
+    </style>
 </resources>

@@ -1,5 +1,7 @@
 package com.example.newsapp.repo
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.newsapp.api.RetrofitInstance
 import com.example.newsapp.db.ArticleDatabase
 import com.example.newsapp.models.Article
@@ -21,10 +23,10 @@ class NewsRepo @Inject constructor (val db: ArticleDatabase
         RetrofitInstance.api.searchforNews(searchQuery)
 
     // room
-    suspend fun  upsert (article: Article) = db.getArticleDao().upsert(article)
+    suspend fun  upsert (article: Article) :Long = db.getArticleDao().upsert(article)
 
 //room
-    fun getAllArticles() = db.getArticleDao().getAllArticles()
+      fun getAllArticles(): List<Article> = db.getArticleDao().getAllArticles()
 
    suspend fun deleteArticle(article: Article) = db.getArticleDao().deleteArticle(article)
 

@@ -34,6 +34,8 @@
         android:background="@color/offWhite"
         app:shapeAppearanceOverlay="@style/CutCorners"
         app:itemIconTint="@color/blue"
+        android:layout_alignParentBottom="true"
+        app:itemActiveIndicatorStyle="@style/Widget.BottomNavigationView.ActiveIndicator"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
