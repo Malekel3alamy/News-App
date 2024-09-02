@@ -10,14 +10,15 @@ The News App is an Android application that provides users with the latest news 
 
 **Components Used**  
 
-- RestfulApi //
-- Retrofit2//
-- MVVM///
-- Room Database//
-- Coroutines//
-- Navigation Component//
-- View binding //
-- Kotlin//
+- RestfulApi 
+- Retrofit2
+- MVVM
+- Room Database
+- Coroutines
+- Navigation Component
+- View binding 
+- Kotlin
+- Dagger Hilt
 
 ## Screenshots
 **!Home Screen**
