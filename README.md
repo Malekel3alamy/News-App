@@ -7,12 +7,35 @@ The News App is an Android application that provides users with the latest news 
 - Browse news articles by category (e.g., Technology, Sports, Health)
 - Search for news articles by keywords
 - Save favorite articles for offline reading
-- Share articles with friends via social media
-- Dark mode support
+
+**Components Used**  
+
+- RestfulApi //
+- Retrofit2//
+- MVVM///
+- Room Database//
+- Coroutines//
+- Navigation Component//
+- View binding //
+- Kotlin//
 
 ## Screenshots
-!Home Screen
-!Article Screen
+**!Home Screen**
+![WhatsApp Image 2024-09-02 at 8 20 41 AM](https://github.com/user-attachments/assets/cb4f2939-0f8b-4368-8df9-5ee06dbfd432)
+
+**!Article Screen**
+![WhatsApp Image 2024-09-02 at 8 20 42 AM](https://github.com/user-attachments/assets/eec826bd-c711-4ecc-9285-de4f94c18967)
+
+**Favourites screen**
+![WhatsApp Image 2024-09-02 at 8 20 42 AM (1)](https://github.com/user-attachments/assets/62bed184-6ad2-482c-82e8-9606cedc6b6b)
+
+**Categories Screen**
+
+![WhatsApp Image 2024-09-02 at 8 20 43 AM (1)](https://github.com/user-attachments/assets/97d55d9c-2570-41ab-810c-c36c63db0fbe)
+
+**Search screen**
+
+![WhatsApp Image 2024-09-02 at 8 20 43 AM](https://github.com/user-attachments/assets/45c1eb86-612b-4fa0-8766-c0023c5449bb)
 
 ## Installation
 To run the News App on your local machine, follow these steps:
@@ -60,15 +83,6 @@ If you have any questions or feedback, feel free to reach out to me at mahmoudal
 Thank you for checking out the News App! Happy coding!
 
 
-Components Used : 
 
-//RestfulApi //
-Retrofit2//
-MVVM///
-Room Database//
-Coroutines//
-Navigation Component//
-View binding //
-Kotlin//
 
 
