@@ -31,7 +31,7 @@ interface NewsApi {
         @Query("removeduplicate")
         removeDuplicate:Int = 1,
         @Query("page")
-        page:String =""
+        page:String
 
     ) :Response<NewsResponse>
 
@@ -46,7 +46,8 @@ interface NewsApi {
         @Query("removeduplicate")
         removeDuplicate:Int = 1 ,
         @Query("category")
-        category : String = "top"
+        category : String = "top",
+
 
 
     ) :Response<NewsResponse>

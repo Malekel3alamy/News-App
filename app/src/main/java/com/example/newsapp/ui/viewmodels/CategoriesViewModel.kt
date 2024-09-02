@@ -22,7 +22,7 @@ class CategoriesViewModel@Inject constructor(val  newsRepo: NewsRepo) : NewsView
     val businessNews= MutableStateFlow<Resources<NewsResponse>>(Resources.Loading())
 
     fun getCategoryNews(category: String) = viewModelScope.launch {
-       val result =  newsRepo.getHeadlines(category = category)
+       val result =  newsRepo.getHeadlines( category = category)
 
 
 

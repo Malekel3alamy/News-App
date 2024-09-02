@@ -43,19 +43,19 @@ open class NewsViewModel @Inject constructor(private val newsRepo :NewsRepo ) : 
 
     headlines.emit(Resources.Loading())
 
-     val response = newsRepo.getHeadlines(category)
+     val response = newsRepo.getHeadlines(category = category)
 
     headlines.emit(handleHeadlinesResponse(response))
 }
-  /*  fun getNextPage(nextPage:String) {
+    fun getNextPage(nextPage:String) {
 
         viewModelScope.launch {
-                    newsRepo.getNextPage(headlines.value!!.data!!.nextPage)
+
                    val result =  newsRepo.getNextPage(nextPage)
-                headlines.(handleHeadlinesResponse(result))
+                headlines.emit(handleHeadlinesResponse(result))
 
         }
-    }*/
+    }
 
     // handle network Response
 

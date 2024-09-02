@@ -1,6 +1,7 @@
 package com.example.newsapp.ui.fragments
 
 import android.os.Bundle
+import android.sax.EndElementListener
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
@@ -14,8 +15,10 @@ import com.example.newsapp.adapters.TopHeadlinesAdapter
 import com.example.newsapp.ui.NewsActivity
 import com.example.newsapp.ui.viewmodels.NewsViewModel
 import com.example.newsapp.databinding.FragmentHomeBinding
+import com.example.newsapp.utils.EndlessScrollListener
 import com.example.newsapp.utils.Resources
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -26,6 +29,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var newsAdapter : NewsAdapter
     private lateinit var topHeadlinesAdapter: TopHeadlinesAdapter
     private lateinit var binding : FragmentHomeBinding
+    var nextPage = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +39,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setUpHeadlinesRecycler()
         setUpTopHeadlinesRecycler()
 
+binding.recyclerTopHeadlines.addOnScrollListener(object  : EndlessScrollListener(){
+    override fun onLoadMore(page: String) {
+        newsViewModel.getNextPage(nextPage)
+    }
 
+})
 
        newsViewModel.getHeadlines("top")
         if (newsViewModel.internetConnection((activity as NewsActivity).applicationContext)){
@@ -48,12 +57,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                             // hideErrorMessage()
                             it.data?.let {
 
-
+                                 nextPage = it.nextPage
                                 val nextPageList = it.results.toList()
                                 val newsList = nextPageList.subList(1,it.results.size)
                                 newsAdapter.differ.submitList(newsList)
                                 topHeadlinesAdapter.differ.submitList(mutableListOf(it.results[0]))
-                              //  newsAdapter.differ.currentList.addAll(newsAdapter.differ.currentList.size +1,it.results.toList())
+
                             }
                         }
                         is Resources.Error -> {
@@ -71,7 +80,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
 
-
+     /*   lifecycleScope.launch {
+            delay(1000L)
+            newsViewModel.getNextPage(nextPage)
+        }*/
 
 
 

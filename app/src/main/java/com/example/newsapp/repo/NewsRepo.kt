@@ -15,7 +15,7 @@ class NewsRepo @Inject constructor (val db: ArticleDatabase
     suspend fun getHeadlines(category: String)
     = RetrofitInstance.api.getHeadlines(category = category)
 
-    suspend fun getNextPage(nextPage:String) = RetrofitInstance.api.getNextPage(nextPage)
+    suspend fun getNextPage(nextPage:String) = RetrofitInstance.api.getNextPage(page =nextPage)
 
 
     suspend fun searchforNews(searchQuery : String) =
