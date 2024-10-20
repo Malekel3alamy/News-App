@@ -20,6 +20,8 @@ The News App is an Android application that provides users with the latest news 
 - Kotlin
 - Dagger Hilt
 
+ **Video Link** : https://www.youtube.com/watch?v=PBtNgf_tAWM&t=1s
+
 ## Screenshots
 ![image](https://github.com/user-attachments/assets/eca96b7f-8d39-4f84-99b6-f6c781bb01e7)
 
